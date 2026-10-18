@@ -1,0 +1,10 @@
+{
+  "name": "Lab Komputer & IT Club SMP",
+  "description": "Sistem Portal Lab Komputer & Kegiatan IT Club SMP dengan modul pembelajaran, portofolio karya, jadwal, dan sistem absensi digital QR Code & RFID terpadu untuk guru dan siswa.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
