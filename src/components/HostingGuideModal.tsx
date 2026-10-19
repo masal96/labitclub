@@ -10,7 +10,8 @@ import {
   Zap, 
   ArrowRight,
   FolderArchive,
-  Layers
+  Layers,
+  Github
 } from 'lucide-react';
 
 interface HostingGuideModalProps {
@@ -25,7 +26,7 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({
   sharedUrl,
 }) => {
   const [copiedUrl, setCopiedUrl] = useState(false);
-  const [activeTab, setActiveTab] = useState<'instant' | 'custom_domain' | 'vercel' | 'cpanel'>('instant');
+  const [activeTab, setActiveTab] = useState<'instant' | 'github' | 'custom_domain' | 'vercel' | 'cpanel'>('github');
 
   if (!isOpen) return null;
 
@@ -73,7 +74,19 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({
             }`}
           >
             <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            <span>1. Link Publik Aktif Saat Ini</span>
+            <span>1. Link Cloud Run Aktif</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('github')}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              activeTab === 'github'
+                ? 'bg-purple-500/20 text-purple-300 border border-purple-500/50 shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Github className="w-3.5 h-3.5 text-purple-400" />
+            <span>2. Hosting via GitHub Pages</span>
           </button>
 
           <button
@@ -85,7 +98,7 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({
             }`}
           >
             <Globe className="w-3.5 h-3.5 text-purple-400" />
-            <span>2. Pasang Domain Sendiri (.sch.id)</span>
+            <span>3. Domain Sendiri (.sch.id)</span>
           </button>
 
           <button
@@ -162,6 +175,64 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({
                 <li>Siswa dapat membuka menu Portofolio dan mendaftar sesi di menu Kegiatan.</li>
                 <li>Guru dapat login lewat tombol "Portal Admin" di pojok kanan atas untuk presensi RFID/QR.</li>
               </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Tab GitHub Pages */}
+        {activeTab === 'github' && (
+          <div className="mt-5 space-y-4 text-xs text-slate-300">
+            <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 text-purple-200">
+              <strong className="text-white text-sm block mb-1 flex items-center gap-2">
+                <Github className="w-4 h-4 text-purple-300" />
+                <span>Hosting Otomatis Gratis Menggunakan GitHub Pages</span>
+              </strong>
+              Proyek ini sudah dilengkapi file workflow <code className="text-cyan-300 font-mono">.github/workflows/deploy.yml</code> dan konfigurasi <code className="text-cyan-300 font-mono">base: './'</code> di Vite, sehingga setiap kali Anda push ke GitHub, website langsung dibuild dan dihosting otomatis secara gratis!
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                <div className="font-bold text-white text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-purple-900 text-purple-200 flex items-center justify-center text-xs font-mono">1</span>
+                  <span>Buat Repositori Baru di GitHub</span>
+                </div>
+                <p className="text-slate-400 mt-1 pl-7">
+                  Buka <a href="https://github.com/new" target="_blank" rel="noopener noreferrer" className="text-cyan-400 underline">github.com/new</a> dan buat repositori publik baru, misalnya dinamakan: <strong className="text-white font-mono">itclub-smp</strong>.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                <div className="font-bold text-white text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-purple-900 text-purple-200 flex items-center justify-center text-xs font-mono">2</span>
+                  <span>Push Kode ke GitHub Melalui Terminal</span>
+                </div>
+                <div className="mt-2 pl-7">
+                  <pre className="p-3 rounded-lg bg-slate-950 font-mono text-[11px] text-cyan-300 border border-slate-800 overflow-x-auto whitespace-pre">
+{`git init
+git add .
+git commit -m "Inisialisasi Website IT Club SMP"
+git branch -M main
+git remote add origin https://github.com/USERNAME-ANDA/itclub-smp.git
+git push -u origin main`}
+                  </pre>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-slate-900 border border-slate-800">
+                <div className="font-bold text-white text-sm flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-md bg-purple-900 text-purple-200 flex items-center justify-center text-xs font-mono">3</span>
+                  <span>Aktifkan GitHub Pages via GitHub Actions</span>
+                </div>
+                <div className="text-slate-400 mt-1 pl-7 space-y-1">
+                  <p>1. Di halaman repositori GitHub Anda, klik tab <strong>Settings</strong>.</p>
+                  <p>2. Pada menu kiri, klik <strong>Pages</strong>.</p>
+                  <p>3. Pada bagian <strong>Build and deployment &gt; Source</strong>, ubah dari <em>"Deploy from a branch"</em> menjadi <strong>"GitHub Actions"</strong>.</p>
+                  <p>4. Tunggu ~1 menit, website Anda akan langsung aktif di alamat:</p>
+                  <div className="p-2 rounded bg-slate-950 font-mono text-emerald-400 text-xs">
+                    https://USERNAME-ANDA.github.io/itclub-smp/
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
